@@ -13,8 +13,8 @@ public class OrderDao extends AbstractDao {
 
     private static String select_All = "select p from OrderPojo p";
 
-    @PersistenceContext
-    private EntityManager em;
+//    @PersistenceContext
+//    private EntityManager em;
 
     public List<OrderPojo> selectAll() {
         TypedQuery<OrderPojo> query = getQuery(select_All, OrderPojo.class);

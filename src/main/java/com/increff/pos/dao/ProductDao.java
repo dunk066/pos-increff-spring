@@ -15,8 +15,8 @@ public class ProductDao extends AbstractDao{
     private static String select_By_Barcode = "select p from ProductMasterPojo p where barcode=:barcode";
     private static String select_All = "select p from ProductMasterPojo p";
 
-    @PersistenceContext
-    private EntityManager em;
+//    @PersistenceContext
+//    private EntityManager em;
 
     public ProductMasterPojo selectByBarcode(String barcode){
         TypedQuery<ProductMasterPojo> query = getQuery(select_By_Barcode,ProductMasterPojo.class);

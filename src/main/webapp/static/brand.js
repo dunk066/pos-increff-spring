@@ -1,15 +1,15 @@
 
-function getposUrl(){
+function getBrandUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/pos";
+	return baseUrl + "/api/brand";
 }
 
 //BUTTON ACTIONS
-function addpos(event){
+function addBrand(event){
 	//Set the values to update
-	var $form = $("#pos-form");
+	var $form = $("#brand-category-add-form");
 	var json = toJson($form);
-	var url = getposUrl();
+	var url = getBrandUrl();
 
 	$.ajax({
 	   url: url,
@@ -19,7 +19,7 @@ function addpos(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getposList();
+	   		getBrandList();
 	   },
 	   error: handleAjaxError
 	});
@@ -27,14 +27,14 @@ function addpos(event){
 	return false;
 }
 
-function updatepos(event){
-	$('#edit-pos-modal').modal('toggle');
+function updateBrand(event){
+	$('#edit-brand-category-modal').modal('toggle');
 	//Get the ID
-	var id = $("#pos-edit-form input[name=id]").val();
-	var url = getposUrl() + "/" + id;
+	var id = $("#brand-category-edit-form input[name=id]").val();
+	var url = getBrandUrl() + "/" + id;
 
 	//Set the values to update
-	var $form = $("#pos-edit-form");
+	var $form = $("#brand-category-edit-form");
 	var json = toJson($form);
 
 	$.ajax({
@@ -45,7 +45,7 @@ function updatepos(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getposList();
+	   		getBrandList();
 	   },
 	   error: handleAjaxError
 	});
@@ -54,26 +54,13 @@ function updatepos(event){
 }
 
 
-function getEmployeeList(){
-	var url = getEmployeeUrl();
+function getBrandList(){
+	var url = getBrandUrl();
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayEmployeeList(data);  
-	   },
-	   error: handleAjaxError
-	});
-}
-
-function deleteEmployee(id){
-	var url = getEmployeeUrl() + "/" + id;
-
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getEmployeeList();  
+	   		displayBrandList(data);
 	   },
 	   error: handleAjaxError
 	});
@@ -86,12 +73,16 @@ var processCount = 0;
 
 
 function processData(){
-	var file = $('#employeeFile')[0].files[0];
+	var file = $('#brandCategoryFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
 }
 
 function readFileDataCallback(results){
 	fileData = results.data;
+	if(fileData.length > 5000){
+    		$.notify("File contains more than 5000 rows !!","error");
+    		return;
+    }
 	uploadRows();
 }
 
@@ -100,6 +91,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
+	    $.notify("File processed !!","success");
 		return;
 	}
 	
@@ -108,7 +100,7 @@ function uploadRows(){
 	processCount++;
 	
 	var json = JSON.stringify(row);
-	var url = getEmployeeUrl();
+	var url = getBrandUrl();
 
 	//Make ajax call
 	$.ajax({
@@ -136,30 +128,29 @@ function downloadErrors(){
 
 //UI DISPLAY METHODS
 
-function displayEmployeeList(data){
-	var $tbody = $('#employee-table').find('tbody');
+function displayBrandList(data){
+	var $tbody = $('#brand-category-table').find('tbody');
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button onclick="deleteEmployee(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button onclick="displayEditEmployee(' + e.id + ')">edit</button>'
+		var buttonHtml = ' <button onclick="displayEditBrand(' + e.id + ')">edit</button>'
 		var row = '<tr>'
 		+ '<td>' + e.id + '</td>'
-		+ '<td>' + e.name + '</td>'
-		+ '<td>'  + e.age + '</td>'
+		+ '<td>' + e.brand + '</td>'
+		+ '<td>'  + e.category + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);
 	}
 }
 
-function displayEditEmployee(id){
-	var url = getEmployeeUrl() + "/" + id;
+function displayEditBrand(id){
+	var url = getBrandUrl() + "/" + id;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayEmployee(data);   
+	   		displayBrand(data);
 	   },
 	   error: handleAjaxError
 	});	
@@ -167,9 +158,9 @@ function displayEditEmployee(id){
 
 function resetUploadDialog(){
 	//Reset file name
-	var $file = $('#employeeFile');
+	var $file = $('#brandCatgoryFile');
 	$file.val('');
-	$('#employeeFileName').html("Choose File");
+	$('#brandCatgoryFileName').html("Choose File");
 	//Reset various counts
 	processCount = 0;
 	fileData = [];
@@ -185,35 +176,35 @@ function updateUploadDialog(){
 }
 
 function updateFileName(){
-	var $file = $('#employeeFile');
+	var $file = $('#brandCategoryFile');
 	var fileName = $file.val();
-	$('#employeeFileName').html(fileName);
+	$('#brandCatgoryFileName').html(fileName);
 }
 
 function displayUploadData(){
  	resetUploadDialog(); 	
-	$('#upload-employee-modal').modal('toggle');
+	$('#upload-brand-category-modal').modal('toggle');
 }
 
-function displayEmployee(data){
-	$("#employee-edit-form input[name=name]").val(data.name);	
-	$("#employee-edit-form input[name=age]").val(data.age);	
-	$("#employee-edit-form input[name=id]").val(data.id);	
-	$('#edit-employee-modal').modal('toggle');
+function displayBrand(data){
+	$("#brand-category-edit-form input[name=brand]").val(data.brand);
+	$("#brand-category-edit-form input[name=category]").val(data.category);
+	$("#brand-category-edit-form input[name=id]").val(data.id);
+	$('#edit-brand-category-modal').modal('toggle');
 }
 
 
 //INITIALIZATION CODE
 function init(){
-	$('#add-employee').click(addEmployee);
-	$('#update-employee').click(updateEmployee);
-	$('#refresh-data').click(getEmployeeList);
+	$('#add-brand-category').click(addBrand);
+	$('#update-brand-category').click(updateBrand);
+	$('#refresh-data').click(getBrandList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#employeeFile').on('change', updateFileName)
+    $('#brandCategoryFile').on('change', updateFileName)
 }
 
 $(document).ready(init);
-$(document).ready(getEmployeeList);
+$(document).ready(getBrandList);
 

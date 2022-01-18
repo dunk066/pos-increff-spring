@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 public class DbConfig {
 
-	public static final String PACKAGE_POJO = "com.increff.employee.pojo";
+	public static final String PACKAGE_POJO = "com.increff.pos.pojo";
 	
 	@Value("${jdbc.driverClassName}")
 	private String jdbcDriver;
@@ -67,7 +67,7 @@ public class DbConfig {
 		jpaProperties.put("hibernate.dialect", hibernateDialect);
 		jpaProperties.put("hibernate.show_sql", hibernateShowSql);
 		jpaProperties.put("hibernate.hbm2ddl.auto", hibernateHbm2ddl);
-		jpaProperties.put("hibernate.hbm2ddl.auto", hibernateHbm2ddl);
+//		jpaProperties.put("hibernate.hbm2ddl.auto", hibernateHbm2ddl);
 		bean.setJpaProperties(jpaProperties);
 		return bean;
 	}

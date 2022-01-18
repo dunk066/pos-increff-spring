@@ -6,29 +6,15 @@
 
 <body>
 
-<nav th:replace="snippets.html :: name_app_navbar"></nav>
+<nav th:replace="snippets.html :: name_site_navbar"></nav>
 
 <div class="container">
-
 <h3>Home</h3>
-
- <!-- Top row with form-->
-<div class="row">
-	 <div class="col-2">
-	 	<a th:href="@{/ui/pos}" title="Employees"> <i class="fas fa-users"></i> </a>
-	 </div>	
-	 <div class="col-2">
-	 	<a th:href="@{/ui/admin}" title="Admin"> <i class="fas fa-cog"></i> </a>
-	 </div>	
-</div> 
-
-
-
-</div> <!-- Container end-->
+</div>
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
 
-</body>	
+</body>
 
 </html>

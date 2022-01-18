@@ -1,0 +1,113 @@
+package com.increff.pos.service;
+
+import com.increff.pos.ApiException;
+import com.increff.pos.InventoryService;
+import com.increff.pos.ProductService;
+import com.increff.pos.dao.OrderDao;
+import com.increff.pos.model.BillData;
+import com.increff.pos.model.OrderForm;
+import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.ProductMasterPojo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class OrderService {
+    @Autowired
+    private OrderDao dao;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Transactional
+    public void add(OrderPojo p){
+        dao.insert(p);
+    }
+
+    @Transactional
+    public OrderPojo get(int id){
+        return dao.select(OrderPojo.class,id);
+    }
+
+    @Transactional
+    public List<OrderPojo> getAll(){
+        return dao.selectAll();
+    }
+
+    // todo <How to implement search ?>
+    public void checkAvailabilityInventory(List<OrderForm> o) throws com.increff.pos.ApiException {
+        for(OrderForm i:o){
+            int orderQuantity = i.quantity;
+            ProductMasterPojo p = productService.getByBarcode(i.barcode);
+            InventoryPojo iP = inventoryService.getByProductId(p);
+            if(orderQuantity > iP.getQuantity()){
+                throw new com.increff.pos.ApiException("Required number of " + orderQuantity + " of " + i.barcode + "doesn't exists");
+            }
+        }
+    }
+
+    public void updateInventory(List<OrderItemPojo> l) throws com.increff.pos.ApiException {
+        for(OrderItemPojo p:l){
+            InventoryPojo iP = inventoryService.getByProductId(productService.get(p.getProductId()));
+            int updatedQuantity = iP.getQuantity() - p.getQuantity();
+            iP.setQuantity(updatedQuantity);
+            inventoryService.update(iP.getId(),iP);
+        }
+    }
+
+    // search between two ddtt
+    public List<OrderPojo> getListSearch(List<OrderPojo> p , String start , String end) throws ParseException {
+        List<OrderPojo> reqList = new ArrayList<OrderPojo>();
+//        https://www.javatpoint.com/java-string-to-date
+        for(OrderPojo o:p){
+            SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+            String recDate = o.getDatetime().split(" ")[0];
+            if((formatter.parse(start).before(formatter.parse(recDate)) || formatter.parse(start).equals(formatter.parse(recDate))) && (formatter.parse(recDate).before(formatter.parse(end)) || formatter.parse(recDate).equals(formatter.parse(end)))){
+                reqList.add(o);
+            }
+        }
+        return reqList;
+    }
+
+    public List<BillData> getBillData(List<OrderItemPojo> op) throws com.increff.pos.ApiException {
+        List<BillData> reqBill = new ArrayList<BillData>();
+        int newId = 1;
+        for (OrderItemPojo o : op) {
+            ProductMasterPojo p = productService.get(o.getProductId());
+            BillData item = new BillData();
+            item.name = p.getName();
+            item.quantity = o.getQuantity();
+            item.mrp = o.getSellingPrice();
+            item.id = newId++;
+            reqBill.add(item);
+        }
+        return reqBill;
+    }
+
+
+    @Transactional(rollbackFor = com.increff.pos.ApiException.class)
+    public void update(int id, OrderPojo p) throws com.increff.pos.ApiException {
+        OrderPojo newP = check(id);
+        newP.setDatetime(p.getDatetime());
+        newP.setOrderUser(p.getOrderUser());
+        dao.update(newP);
+    }
+
+    @Transactional
+    public OrderPojo check(int id) throws com.increff.pos.ApiException {
+        OrderPojo p = dao.select(OrderPojo.class, id);
+        if (p == null) {
+            throw new ApiException("Order doesn't exist - id : " + id);
+        }
+        return p;
+    }
+}

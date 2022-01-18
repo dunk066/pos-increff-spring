@@ -13,6 +13,7 @@ public class OrderPojo {
 	private int id;
 	private int orderId;
 	private String datetime;
+	private String orderUser;
 
 	public int getId() {
 		return id;
@@ -36,5 +37,13 @@ public class OrderPojo {
 
 	public void setDatetime(String datetime) {
 		this.datetime = datetime;
+	}
+
+	public String getOrderUser() {
+		return orderUser;
+	}
+
+	public void setOrderUser(String orderUser) {
+		this.orderUser = orderUser;
 	}
 }

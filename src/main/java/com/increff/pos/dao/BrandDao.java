@@ -15,9 +15,6 @@ public class BrandDao extends AbstractDao {
     private static String select_All = "select p from BrandMasterPojo p";
     private static String select_Id = "select p from BrandMasterPojo p where id=:id";
 
-    @PersistenceContext
-    private EntityManager em;
-
     public BrandMasterPojo selectByBrandCategory(String brand,String category) {
         TypedQuery<BrandMasterPojo> query = getQuery(select_By_Brand_Category, BrandMasterPojo.class);
         query.setParameter("brand", brand);

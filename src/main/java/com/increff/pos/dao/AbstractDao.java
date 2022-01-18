@@ -28,4 +28,8 @@ public abstract class AbstractDao {
 	public <T> T select(Class<T> c, int id) {
 		return em.find(c, id);
 	}
+
+	public <T> void update(T b) {
+		em.merge(b);
+	}
 }

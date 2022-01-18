@@ -3,7 +3,7 @@ package com.increff.pos.service;
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.pojo.BrandMasterPojo;
-import com.increff.pos.util.StringUtil;
+import com.increff.pos.util.normalizeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class BrandService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public BrandMasterPojo add(BrandMasterPojo p) throws ApiException {
-		normalize(p);
+		normalizeUtil.normalizeBrandMasterPojo(p);
 		getCheckBrand(p.getBrand(),p.getCategory());
 		dao.insert(p);
 		return p;
@@ -35,14 +35,20 @@ public class BrandService {
 		return dao.selectAll();
 	}
 
+	public BrandMasterPojo getByBrandCategory(BrandForm brandForm) throws ApiException {
+		normalizeUtil.normalizeBrandForm(brandForm);
+		return getCheckForBrand(brandForm);
+	}
+
 	@Transactional(rollbackOn  = ApiException.class)
-	public void update(int id, BrandMasterPojo p) throws ApiException {
-		normalize(p);
+	public BrandMasterPojo update(int id, BrandMasterPojo p) throws ApiException {
+		normalizeUtil.normalizeBrandMasterPojo(p);
 		getCheckBrand(p.getBrand(),p.getCategory());
 		BrandMasterPojo ex = getCheck(id);
 		ex.setBrand(p.getBrand());
 		ex.setCategory(p.getCategory());
 		dao.update(ex);
+		return ex;
 	}
 
 	@Transactional
@@ -62,8 +68,13 @@ public class BrandService {
 		}
 	}
 
-	protected static void normalize(BrandMasterPojo p) {
-		p.setBrand(StringUtil.toLowerCase(p.getBrand()));
-		p.setCategory(StringUtil.toLowerCase(p.getCategory()));
+	@Transactional
+	public BrandMasterPojo getCheckForBrand(BrandForm brandForm) throws ApiException {
+		BrandMasterPojo brandMasterPojo = dao.selectByBrandCategory(brandForm.brand, brandForm.category);
+		if (brandMasterPojo == null) {
+			throw new ApiException("Brand-Category dosen't exist");
+		}
+		return brandMasterPojo;
 	}
+
 }
