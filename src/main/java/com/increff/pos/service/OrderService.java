@@ -3,6 +3,7 @@ package com.increff.pos.service;
 import com.increff.pos.dao.OrderDao;
 import com.increff.pos.model.BillData;
 import com.increff.pos.model.OrderForm;
+import com.increff.pos.model.OrderSearchForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
@@ -97,6 +98,11 @@ public class OrderService {
         newP.setDatetime(p.getDatetime());
         newP.setOrderUser(p.getOrderUser());
         dao.update(newP);
+    }
+
+    @Transactional
+    public List<OrderPojo> searchOrder(OrderSearchForm f) {
+        return dao.searchOrderData(f.getOrderUser());
     }
 
     @Transactional

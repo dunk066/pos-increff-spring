@@ -7,32 +7,32 @@ import com.increff.pos.pojo.BrandMasterPojo;
 public class convertUtil {
     public static BrandData convertBrandMastePojotoBrandData(BrandMasterPojo p) {
         BrandData d = new BrandData();
-        d.category = p.getCategory();
-        d.brand = p.getBrand();
-        d.id = p.getId();
+        d.setCategory(p.getCategory());
+        d.setBrand(p.getBrand());
+        d.setId(p.getId());
         return d;
     }
 
     public static BrandMasterPojo convertBrandFormtoBrandMasterPojo(BrandForm f) {
         BrandMasterPojo b = new BrandMasterPojo();
-        b.setCategory(f.category);
-        b.setBrand(f.brand);
+        b.setCategory(f.getCategory());
+        b.setBrand(f.getBrand());
         return b;
     }
 
 
     public static BrandData convertBrandMasterPojotoBrandData(BrandMasterPojo p) {
         BrandData d = new BrandData();
-        d.brand = p.getBrand();
-        d.category = p.getCategory();
+        d.setBrand(p.getBrand());
+        d.setCategory(p.getCategory());
         d.id = p.getId();
         return d;
     }
 
     public static BrandMasterPojo convertBrandFormtoBrandMastePojo(BrandForm f) {
         BrandMasterPojo p = new BrandMasterPojo();
-        p.setBrand(f.brand);
-        p.setCategory(f.category);
+        p.setBrand(f.getBrand());
+        p.setCategory(f.getCategory());
         return p;
     }
 }

@@ -17,7 +17,7 @@ public class OrderItemDao extends AbstractDao {
     private static String delete_By_OrderId = "delete from OrderItemPojo p where orderId=:orderId";
     private static String select_By_OrderId_List = "select p from OrderItemPojo p where orderId IN:orderIds";
 
-    // todo how do PersistenceContext works ?
+    // todo https://storage.googleapis.com/www.increff.com/img/favicon.png?v=2
 //    @PersistenceContext
 //    private EntityManager em;
 

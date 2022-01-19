@@ -23,7 +23,7 @@ public class BrandDto {
         return brandService.add(p);
     }
 
-    public BrandData getBrandData(int id) throws ApiException {
+    public BrandData getBrandData(int id) {
         return convertUtil.convertBrandMastePojotoBrandData(brandService.get(id));
     }
 
@@ -42,12 +42,12 @@ public class BrandDto {
         return brandService.update(id,p);
     }
 
-    public BrandMasterPojo getByBrandCategory(BrandForm brandForm) throws ApiException {
-        return brandService.getByBrandCategory(brandForm);
+    public BrandMasterPojo getByBrandCategory(BrandForm f) throws ApiException {
+        return brandService.getByBrandCategory(f);
     }
 
     public void checkForm(BrandForm f) throws ApiException {
-        if(f.category == null || f.brand == null){
+        if(f.getCategory() == null || f.getBrand() == null){
             throw new ApiException("No brand and category provided");
         }
     }

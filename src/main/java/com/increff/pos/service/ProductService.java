@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.ProductDao;
+import com.increff.pos.model.ProductSearchForm;
 import com.increff.pos.pojo.BrandMasterPojo;
 import com.increff.pos.pojo.ProductMasterPojo;
 import com.increff.pos.util.StringUtil;
@@ -77,5 +78,11 @@ public class ProductService {
         }else{
             return p;
         }
+    }
+
+    @Transactional
+    public List<ProductMasterPojo> searchProductData(ProductSearchForm f) {
+        normalizeUtil.normalizeProductSearchForm(f);
+        return dao.searchProductData(f.getBarcode(), f.getName());
     }
 }
