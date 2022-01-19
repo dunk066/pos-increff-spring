@@ -2,8 +2,8 @@ package com.increff.pos.model;
 
 public class AboutAppData {
 
-	private String name;
-	private String version;
+	public String name;
+	public String version;
 
 	public String getName() {
 		return name;

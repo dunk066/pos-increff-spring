@@ -1,19 +1,17 @@
-package com.increff.pos.spring;
+package com.increff.pos.service;
 
-import com.increff.pos.AboutAppService;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.assertEquals;
-
-public class AboutAppServiceTest {
+public class AboutAppServiceTest extends AbstractUnitTest {
 
 	@Autowired
 	private AboutAppService service;
 
 	@Test
 	public void testServiceApis() {
-		assertEquals("pos Application", service.getName());
+		assertEquals("Employee Application", service.getName());
 		assertEquals("1.0", service.getVersion());
 	}
 

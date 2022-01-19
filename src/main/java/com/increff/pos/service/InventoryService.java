@@ -1,6 +1,5 @@
 package com.increff.pos.service;
 
-import com.increff.pos.ApiException;
 import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductMasterPojo;
@@ -37,7 +36,7 @@ public class InventoryService {
     }
 
     @Transactional
-    public InventoryPojo update(int id,InventoryPojo p) throws com.increff.pos.ApiException {
+    public InventoryPojo update(int id,InventoryPojo p) throws ApiException {
         InventoryPojo newP = check(id);
         newP.setQuantity(p.getQuantity());
         dao.update(newP);
@@ -45,7 +44,7 @@ public class InventoryService {
     }
 
     @Transactional
-    public InventoryPojo check(int id) throws com.increff.pos.ApiException {
+    public InventoryPojo check(int id) throws ApiException {
         InventoryPojo p = dao.select(InventoryPojo.class, id);
         if (p == null) {
             throw new ApiException("Inventory doesn't exist - id " + id);

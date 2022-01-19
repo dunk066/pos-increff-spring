@@ -1,8 +1,5 @@
 package com.increff.pos.service;
 
-import com.increff.pos.ApiException;
-import com.increff.pos.InventoryService;
-import com.increff.pos.ProductService;
 import com.increff.pos.dao.OrderDao;
 import com.increff.pos.model.BillData;
 import com.increff.pos.model.OrderForm;
@@ -44,18 +41,18 @@ public class OrderService {
     }
 
     // todo <How to implement search ?>
-    public void checkAvailabilityInventory(List<OrderForm> o) throws com.increff.pos.ApiException {
+    public void checkAvailabilityInventory(List<OrderForm> o) throws ApiException {
         for(OrderForm i:o){
             int orderQuantity = i.quantity;
             ProductMasterPojo p = productService.getByBarcode(i.barcode);
             InventoryPojo iP = inventoryService.getByProductId(p);
             if(orderQuantity > iP.getQuantity()){
-                throw new com.increff.pos.ApiException("Required number of " + orderQuantity + " of " + i.barcode + "doesn't exists");
+                throw new ApiException("Required number of " + orderQuantity + " of " + i.barcode + "doesn't exists");
             }
         }
     }
 
-    public void updateInventory(List<OrderItemPojo> l) throws com.increff.pos.ApiException {
+    public void updateInventory(List<OrderItemPojo> l) throws ApiException {
         for(OrderItemPojo p:l){
             InventoryPojo iP = inventoryService.getByProductId(productService.get(p.getProductId()));
             int updatedQuantity = iP.getQuantity() - p.getQuantity();
@@ -78,7 +75,7 @@ public class OrderService {
         return reqList;
     }
 
-    public List<BillData> getBillData(List<OrderItemPojo> op) throws com.increff.pos.ApiException {
+    public List<BillData> getBillData(List<OrderItemPojo> op) throws ApiException {
         List<BillData> reqBill = new ArrayList<BillData>();
         int newId = 1;
         for (OrderItemPojo o : op) {
@@ -94,8 +91,8 @@ public class OrderService {
     }
 
 
-    @Transactional(rollbackFor = com.increff.pos.ApiException.class)
-    public void update(int id, OrderPojo p) throws com.increff.pos.ApiException {
+    @Transactional(rollbackFor = ApiException.class)
+    public void update(int id, OrderPojo p) throws ApiException {
         OrderPojo newP = check(id);
         newP.setDatetime(p.getDatetime());
         newP.setOrderUser(p.getOrderUser());
@@ -103,7 +100,7 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderPojo check(int id) throws com.increff.pos.ApiException {
+    public OrderPojo check(int id) throws ApiException {
         OrderPojo p = dao.select(OrderPojo.class, id);
         if (p == null) {
             throw new ApiException("Order doesn't exist - id : " + id);

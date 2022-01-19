@@ -3,8 +3,8 @@ package com.increff.pos.dto;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.pojo.BrandMasterPojo;
+import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
-import com.increff.pos.spring.AbstractUnitTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -14,13 +14,6 @@ import static org.junit.Assert.assertEquals;
 public class BrandDtoTest extends AbstractUnitTest {
     @Autowired
     private BrandDto brandDto;
-
-    @Test(expected = ApiException.class)
-    public void checkFormTest() throws ApiException {
-        BrandForm f = new BrandForm();
-        f.brand = "aLtErNaTe";f.category = "";
-        brandDto.checkForm(f);
-    }
 
     @Test
     public void addBrandTest() throws ApiException {
@@ -48,7 +41,8 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test
     public void getAllBrandTest() throws ApiException {
         BrandForm f = new BrandForm();
-        f.brand = "aLtErNaTe";f.category = "AlTeR";
+        f.brand = "aLtErNaTe";
+        f.category = "AlTeR";
         BrandMasterPojo p = brandDto.addBrand(f);
         f.brand = "bLtErNaTe";f.category = "BlTeR";
         p = brandDto.addBrand(f);
@@ -81,6 +75,13 @@ public class BrandDtoTest extends AbstractUnitTest {
         BrandMasterPojo p = brandDto.getByBrandCategory(f);
         assertEquals("alternate",p.getBrand());
         assertEquals("alter",p.getBrand());
+    }
+
+    @Test(expected = ApiException.class)
+    public void checkFormTest() throws ApiException {
+        BrandForm f = new BrandForm();
+        f.brand = " altern";f.category = "";
+        brandDto.checkForm(f);
     }
 
 }

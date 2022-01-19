@@ -1,5 +1,6 @@
-package com.increff.pos.spring;
+package com.increff.pos.service;
 
+import com.increff.pos.spring.SpringConfig;
 import org.springframework.context.annotation.*;
 import org.springframework.context.annotation.ComponentScan.Filter;
 
@@ -15,3 +16,5 @@ public class QaConfig {
 
 
 }
+
+// todo @config... -->

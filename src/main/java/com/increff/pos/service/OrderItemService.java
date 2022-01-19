@@ -1,6 +1,5 @@
 package com.increff.pos.service;
 
-import com.increff.pos.ApiException;
 import com.increff.pos.dao.OrderItemDao;
 import com.increff.pos.pojo.OrderItemPojo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class OrderItemService {
     }
 
     @Transactional
-    public List<OrderItemPojo> getByOrderId(int orderId) throws com.increff.pos.ApiException {
+    public List<OrderItemPojo> getByOrderId(int orderId) throws ApiException {
         return check(orderId);
     }
 
@@ -42,7 +41,7 @@ public class OrderItemService {
     }
 
     @Transactional
-    public List<OrderItemPojo> check(int orderId) throws com.increff.pos.ApiException {
+    public List<OrderItemPojo> check(int orderId) throws ApiException {
         List<OrderItemPojo> newP = dao.selectByOrderId(orderId);
         if (newP.isEmpty()) {
             throw new ApiException("Order Items don't exist - orderId : " + orderId);

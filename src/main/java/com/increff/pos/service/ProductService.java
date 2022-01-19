@@ -1,6 +1,5 @@
 package com.increff.pos.service;
 
-import com.increff.pos.ApiException;
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.pojo.BrandMasterPojo;
 import com.increff.pos.pojo.ProductMasterPojo;
@@ -19,8 +18,8 @@ public class ProductService {
     @Autowired
     private ProductDao dao;
 
-    @Transactional(rollbackFor = com.increff.pos.ApiException.class)
-    public ProductMasterPojo add(ProductMasterPojo p, BrandMasterPojo b) throws com.increff.pos.ApiException {
+    @Transactional(rollbackFor = ApiException.class)
+    public ProductMasterPojo add(ProductMasterPojo p, BrandMasterPojo b) throws ApiException {
         normalizeUtil.normalizaProductMasterPojo(p);
         ProductMasterPojo ex = dao.selectByBarcode(p.getBarcode());
         if(ex == null){
@@ -48,18 +47,18 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductMasterPojo getByBarcode(String barcode) throws com.increff.pos.ApiException {
+    public ProductMasterPojo getByBarcode(String barcode) throws ApiException {
         barcode = StringUtil.toLowerCase(barcode);
         ProductMasterPojo p = dao.selectByBarcode(barcode);
         if(p == null){
-            throw new com.increff.pos.ApiException("Barcode doesn't exist");
+            throw new ApiException("Barcode doesn't exist");
         }else{
             return p;
         }
     }
 
-    @Transactional(rollbackFor = com.increff.pos.ApiException.class)
-    public ProductMasterPojo update(int id,ProductMasterPojo p,BrandMasterPojo b) throws com.increff.pos.ApiException {
+    @Transactional(rollbackFor = ApiException.class)
+    public ProductMasterPojo update(int id,ProductMasterPojo p,BrandMasterPojo b) throws ApiException {
         normalizeUtil.normalizaProductMasterPojo(p);
         ProductMasterPojo newP = check(id);
         newP.setBarcode(p.getBarcode());
@@ -71,7 +70,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductMasterPojo check(int id) throws com.increff.pos.ApiException {
+    public ProductMasterPojo check(int id) throws ApiException {
         ProductMasterPojo p = dao.select(ProductMasterPojo.class,id);
         if(p == null){
             throw new ApiException("Product doesn't exist - id : " + id);
