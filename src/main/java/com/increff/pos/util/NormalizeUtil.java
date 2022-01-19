@@ -5,7 +5,7 @@ import com.increff.pos.model.ProductSearchForm;
 import com.increff.pos.pojo.BrandMasterPojo;
 import com.increff.pos.pojo.ProductMasterPojo;
 
-public class normalizeUtil {
+public class NormalizeUtil {
     public static void normalizeBrandMasterPojo(BrandMasterPojo p) {
         p.setBrand(StringUtil.toLowerCase(p.getBrand()));
         p.setCategory(StringUtil.toLowerCase(p.getCategory()));

@@ -5,7 +5,6 @@ import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductMasterPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -15,9 +14,9 @@ public class InventoryService {
     private InventoryDao dao;
 
     @Transactional
-    public InventoryPojo add(InventoryPojo inventoryPojo) {
-        dao.insert(inventoryPojo);
-        return inventoryPojo;
+    public InventoryPojo add(InventoryPojo p) {
+        dao.insert(p);
+        return p;
     }
 
     @Transactional
@@ -35,7 +34,7 @@ public class InventoryService {
         return dao.selectByProductId(p.getId());
     }
 
-    @Transactional
+    @Transactional(rollbackOn = ApiException.class)
     public InventoryPojo update(int id,InventoryPojo p) throws ApiException {
         InventoryPojo newP = check(id);
         newP.setQuantity(p.getQuantity());

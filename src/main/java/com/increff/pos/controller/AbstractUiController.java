@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.increff.pos.model.InfoData;
-import com.increff.pos.util.SecurityUtil;
-import com.increff.pos.util.UserPrincipal;
 
 @Controller
 public abstract class AbstractUiController {
@@ -20,9 +18,6 @@ public abstract class AbstractUiController {
 
 	protected ModelAndView mav(String page) {
 		// Get current user
-		UserPrincipal principal = SecurityUtil.getPrincipal();
-
-		info.setEmail(principal == null ? "" : principal.getEmail());
 
 		// Set info
 		ModelAndView mav = new ModelAndView(page);

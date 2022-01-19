@@ -5,7 +5,6 @@ import com.increff.pos.pojo.OrderItemPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -21,13 +20,13 @@ public class OrderItemService {
     }
 
     @Transactional
-    public List<OrderItemPojo> getByOrderId(int orderId) throws ApiException {
-        return check(orderId);
+    public List<OrderItemPojo> getByOrderId(int id) throws ApiException {
+        return check(id);
     }
 
     @Transactional
-    public List<OrderItemPojo> getList(List<Integer> orderIds) {
-        return dao.selectByOrderIdList(orderIds);
+    public List<OrderItemPojo> getList(List<Integer> ids) {
+        return dao.selectByOrderIdList(ids);
     }
 
     @Transactional
@@ -36,15 +35,15 @@ public class OrderItemService {
     }
 
     @Transactional
-    public void deleteByOrderId(int orderId) {
-        dao.deleteByOrderId(orderId);
+    public void deleteByOrderId(int id) {
+        dao.deleteByOrderId(id);
     }
 
     @Transactional
-    public List<OrderItemPojo> check(int orderId) throws ApiException {
-        List<OrderItemPojo> newP = dao.selectByOrderId(orderId);
+    public List<OrderItemPojo> check(int id) throws ApiException {
+        List<OrderItemPojo> newP = dao.selectByOrderId(id);
         if (newP.isEmpty()) {
-            throw new ApiException("Order Items don't exist - orderId : " + orderId);
+            throw new ApiException("Order items don't exist - orderId : " + id);
         }
         return newP;
     }

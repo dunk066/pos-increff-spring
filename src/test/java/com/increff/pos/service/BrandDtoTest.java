@@ -29,11 +29,12 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     @Test
     public void testGetBrandData() throws ApiException {
-        BrandForm f = testUtil.getBrandFormDto("aLtErNaTe","AlTeR");
-        BrandMasterPojo p = brandDto.getByBrandCategory(f);
+        BrandForm f = testUtil.getBrandFormDto("Te","Al");
+        BrandMasterPojo p = brandDto.addBrand(f);
+        p = brandDto.getByBrandCategory(f);
         BrandData d = brandDto.getBrandData(p.getId());
-        assertEquals("alternate",d.getBrand());
-        assertEquals("alter",d.getCategory());
+        assertEquals("te",d.getBrand());
+        assertEquals("al",d.getCategory());
     }
 
     @Test
@@ -60,15 +61,16 @@ public class BrandDtoTest extends AbstractUnitTest {
         f.setCategory("   BlteR");
         p = brandDto.updateBrand(p.getId(),f);
         assertEquals("alternate",p.getBrand());
-        assertEquals("alter",p.getCategory());
+        assertEquals("blter",p.getCategory());
     }
 
     @Test
     public void testGetByBrandCategory() throws ApiException {
         BrandForm f = testUtil.getBrandFormDto("aLtErNaTe","AlTeR");
-        BrandMasterPojo p = brandDto.getByBrandCategory(f);
+        BrandMasterPojo p = brandDto.addBrand(f);
+        p = brandDto.getByBrandCategory(f);
         assertEquals("alternate",p.getBrand());
-        assertEquals("alter",p.getBrand());
+        assertEquals("alter",p.getCategory());
     }
 
 

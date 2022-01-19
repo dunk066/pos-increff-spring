@@ -12,35 +12,42 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrderItemDao extends AbstractDao {
 
-    private static String select_All = "select p from OrderItemPojo p";
-    private static String select_By_OrderId = "select p from OrderItemPojo where p:=orderId";
-    private static String delete_By_OrderId = "delete from OrderItemPojo p where orderId=:orderId";
-    private static String select_By_OrderId_List = "select p from OrderItemPojo p where orderId IN:orderIds";
+    // <queries>
+    // select all
+    private static String selectAll = "select p from OrderItemPojo p";
+    // select by order id
+    private static String selectByOrderId = "select p from OrderItemPojo where orderId:=orderId";
+    // delete by order id
+    private static String deleteByOrderId = "delete from OrderItemPojo p where orderId=:orderId";
+    // select list by order id
+    private static String selectByOrderIdList = "select p from OrderItemPojo p where orderId IN:orderIds";
 
     // todo https://storage.googleapis.com/www.increff.com/img/favicon.png?v=2
-//    @PersistenceContext
-//    private EntityManager em;
 
+    // <queryFunctions>
+    // function to select by order id
     public List<OrderItemPojo> selectByOrderId(int orderId){
-        TypedQuery<OrderItemPojo> query = getQuery(select_By_OrderId,OrderItemPojo.class);
+        TypedQuery<OrderItemPojo> query = getQuery(selectByOrderId,OrderItemPojo.class);
         query.setParameter("orderId",orderId);
-//        return getSingle(query);
         return query.getResultList();
     }
 
+    // function to select all
     public List<OrderItemPojo> selectAll() {
-        TypedQuery<OrderItemPojo> query = getQuery(select_All, OrderItemPojo.class);
+        TypedQuery<OrderItemPojo> query = getQuery(selectAll, OrderItemPojo.class);
         return query.getResultList();
     }
 
+    // function to delete by order id
     public int deleteByOrderId(int orderId) {
-        Query query = em().createQuery(delete_By_OrderId);
+        Query query = em().createQuery(deleteByOrderId);
         query.setParameter("orderId", orderId);
         return query.executeUpdate();
     }
 
+    // function to select list by order id
     public List<OrderItemPojo> selectByOrderIdList(List<Integer> orderIds){
-        TypedQuery<OrderItemPojo> query = getQuery(select_By_OrderId_List,OrderItemPojo.class);
+        TypedQuery<OrderItemPojo> query = getQuery(selectByOrderIdList,OrderItemPojo.class);
         query.setParameter("orderIds" , orderIds);
         return query.getResultList();
     }

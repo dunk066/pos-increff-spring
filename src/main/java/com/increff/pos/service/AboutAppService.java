@@ -1,6 +1,5 @@
 package com.increff.pos.service;
 
-import com.increff.pos.model.AboutAppData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

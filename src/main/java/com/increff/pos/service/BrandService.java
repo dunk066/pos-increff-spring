@@ -3,11 +3,9 @@ package com.increff.pos.service;
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.pojo.BrandMasterPojo;
-import com.increff.pos.util.normalizeUtil;
+import com.increff.pos.util.NormalizeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -19,13 +17,12 @@ public class BrandService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public BrandMasterPojo add(BrandMasterPojo p) throws ApiException {
-		normalizeUtil.normalizeBrandMasterPojo(p);
-		getCheckBrandExist(p.getBrand(),p.getCategory());
+		NormalizeUtil.normalizeBrandMasterPojo(p);
+		getCheckBrandCategoryExist(p.getBrand(),p.getCategory());
 		dao.insert(p);
 		return p;
 	}
 
-	//how to implement this
 	@Transactional
 	public BrandMasterPojo get(int id) {
 		return dao.select(BrandMasterPojo.class,id);
@@ -37,15 +34,15 @@ public class BrandService {
 	}
 
 	@Transactional
-	public BrandMasterPojo getByBrandCategory(BrandForm brandForm) throws ApiException {
-		normalizeUtil.normalizeBrandForm(brandForm);
-		return getCheckForBrand(brandForm);
+	public BrandMasterPojo getByBrandCategory(BrandForm form) throws ApiException {
+		NormalizeUtil.normalizeBrandForm(form);
+		return getCheckForBrandCategory(form);
 	}
 
 	@Transactional(rollbackOn  = ApiException.class)
 	public BrandMasterPojo update(int id, BrandMasterPojo p) throws ApiException {
-		normalizeUtil.normalizeBrandMasterPojo(p);
-		getCheckBrandExist(p.getBrand(),p.getCategory());
+		NormalizeUtil.normalizeBrandMasterPojo(p);
+		getCheckBrandCategoryExist(p.getBrand(),p.getCategory());
 		BrandMasterPojo ex = getCheck(id);
 		ex.setBrand(p.getBrand());
 		ex.setCategory(p.getCategory());
@@ -54,23 +51,22 @@ public class BrandService {
 	}
 
 	@Transactional
-	public List<BrandMasterPojo> searchBrandData(BrandForm brandForm) {
-		// normalize
-		normalizeUtil.normalizeBrandForm(brandForm);
-		return dao.searchBrandData(brandForm.getBrand(), brandForm.getCategory());
+	public List<BrandMasterPojo> searchBrandCategoryData(BrandForm form) {
+		NormalizeUtil.normalizeBrandForm(form);
+		return dao.searchBrandData(form.getBrand(),form.getCategory());
 	}
 
 	@Transactional
 	public BrandMasterPojo getCheck(int id) throws ApiException {
-		BrandMasterPojo p = dao.selectById(id);
-		if (p != null) {
-			throw new ApiException("brand and category with given ID does not exit, id: " + id);
+		BrandMasterPojo p = dao.select(BrandMasterPojo.class,id);
+		if (p == null) {
+			throw new ApiException("Brand and Category with given ID does not exist - id: " + id);
 		}
 		return p;
 	}
 
 	@Transactional
-	public void getCheckBrandExist(String brand,String category) throws ApiException {
+	public void getCheckBrandCategoryExist(String brand,String category) throws ApiException {
 		BrandMasterPojo p = dao.selectByBrandCategory(brand,category);
 		if (p != null) {
 			throw new ApiException("brand and category already exists");
@@ -78,12 +74,12 @@ public class BrandService {
 	}
 
 	@Transactional
-	public BrandMasterPojo getCheckForBrand(BrandForm brandForm) throws ApiException {
-		BrandMasterPojo brandMasterPojo = dao.selectByBrandCategory(brandForm.getBrand(), brandForm.getCategory());
-		if (brandMasterPojo == null) {
-			throw new ApiException("Brand-Category dosen't exist");
+	public BrandMasterPojo getCheckForBrandCategory(BrandForm form) throws ApiException {
+		BrandMasterPojo p = dao.selectByBrandCategory(form.getBrand(),form.getCategory());
+		if (p == null) {
+			throw new ApiException("Brand-Category doesn't exist");
 		}
-		return brandMasterPojo;
+		return p;
 	}
 
 }

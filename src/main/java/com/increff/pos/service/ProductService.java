@@ -5,7 +5,7 @@ import com.increff.pos.model.ProductSearchForm;
 import com.increff.pos.pojo.BrandMasterPojo;
 import com.increff.pos.pojo.ProductMasterPojo;
 import com.increff.pos.util.StringUtil;
-import com.increff.pos.util.normalizeUtil;
+import com.increff.pos.util.NormalizeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ public class ProductService {
 
     @Transactional(rollbackFor = ApiException.class)
     public ProductMasterPojo add(ProductMasterPojo p, BrandMasterPojo b) throws ApiException {
-        normalizeUtil.normalizaProductMasterPojo(p);
+        NormalizeUtil.normalizaProductMasterPojo(p);
         ProductMasterPojo ex = dao.selectByBarcode(p.getBarcode());
         if(ex == null){
             dao.insert(p);
@@ -30,7 +30,7 @@ public class ProductService {
             String barcode = StringUtil.generateBarcode();
             ProductMasterPojo newP = new ProductMasterPojo();
             newP.setBarcode(barcode);
-            newP.setBrand_category(b.getId());
+            newP.setBrandCategory(b.getId());
             newP.setMrp(p.getMrp());
             newP.setName(p.getName());
             return add(newP,b);
@@ -60,10 +60,10 @@ public class ProductService {
 
     @Transactional(rollbackFor = ApiException.class)
     public ProductMasterPojo update(int id,ProductMasterPojo p,BrandMasterPojo b) throws ApiException {
-        normalizeUtil.normalizaProductMasterPojo(p);
+        NormalizeUtil.normalizaProductMasterPojo(p);
         ProductMasterPojo newP = check(id);
         newP.setBarcode(p.getBarcode());
-        newP.setBrand_category(b.getId());
+        newP.setBrandCategory(b.getId());
         newP.setMrp(p.getMrp());
         newP.setName(p.getName());
         dao.update(p);
@@ -82,7 +82,7 @@ public class ProductService {
 
     @Transactional
     public List<ProductMasterPojo> searchProductData(ProductSearchForm f) {
-        normalizeUtil.normalizeProductSearchForm(f);
+        NormalizeUtil.normalizeProductSearchForm(f);
         return dao.searchProductData(f.getBarcode(), f.getName());
     }
 }
