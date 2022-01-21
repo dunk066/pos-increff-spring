@@ -16,6 +16,8 @@ import java.util.List;
 @RequestMapping(value = "/api/brand")
 public class BrandApiController {
 
+	// todo 1-PDF Invoice Generation
+	//
 	@Autowired
 	private BrandDto brandDto;
 
@@ -29,6 +31,12 @@ public class BrandApiController {
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public BrandData get(@PathVariable int id) throws ApiException, ApiException {
 		return brandDto.getBrandData(id);
+	}
+
+	@ApiOperation(value = "Search a Brand")
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public List<BrandData> search(@RequestBody BrandForm form) throws ApiException {
+		return brandDto.searchBrandData(form);
 	}
 
 	@ApiOperation(value = "Gets list of all brands")

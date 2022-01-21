@@ -41,7 +41,7 @@ public class OrderService {
         return dao.selectAll();
     }
 
-    // todo <How to implement search ?>
+
     public void checkAvailabilityInventory(List<OrderForm> o) throws ApiException {
         for(OrderForm i:o){
             int orderQuantity = i.quantity;

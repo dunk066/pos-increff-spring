@@ -30,6 +30,5 @@ public abstract class AbstractDao {
 	}
 
 	public <T> void update(T b) {
-		em.merge(b);
 	}
 }

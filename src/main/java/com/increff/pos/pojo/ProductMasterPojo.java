@@ -3,10 +3,7 @@ package com.increff.pos.pojo;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Setter
@@ -17,8 +14,10 @@ public class ProductMasterPojo {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String barcode;
-	private int brandCategory;
+	@Column(nullable = false)
+	private int brandCategoryId;
 	private String name;
 	private double mrp;
-
+    // todo use non primitive data types
+	// todo !null --> (@Column(....))
 }

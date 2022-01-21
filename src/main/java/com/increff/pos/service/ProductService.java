@@ -30,7 +30,7 @@ public class ProductService {
             String barcode = StringUtil.generateBarcode();
             ProductMasterPojo newP = new ProductMasterPojo();
             newP.setBarcode(barcode);
-            newP.setBrandCategory(b.getId());
+            newP.setBrandCategoryId(b.getId());
             newP.setMrp(p.getMrp());
             newP.setName(p.getName());
             return add(newP,b);
@@ -63,7 +63,7 @@ public class ProductService {
         NormalizeUtil.normalizaProductMasterPojo(p);
         ProductMasterPojo newP = check(id);
         newP.setBarcode(p.getBarcode());
-        newP.setBrandCategory(b.getId());
+        newP.setBrandCategoryId(b.getId());
         newP.setMrp(p.getMrp());
         newP.setName(p.getName());
         dao.update(p);

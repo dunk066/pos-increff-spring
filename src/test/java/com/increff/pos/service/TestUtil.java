@@ -2,7 +2,7 @@ package com.increff.pos.service;
 
 import com.increff.pos.model.BrandForm;
 
-public class testUtil {
+public class TestUtil {
 
     public static BrandForm getBrandFormDto(String brand, String category) {
         BrandForm brandForm = new BrandForm();

@@ -15,93 +15,72 @@
     <!-- Top row with form-->
     <div class="row">
         <div class="col-12">
-            <form class="form-inline" id="brand-category-form">
+            <form class="form-inline" id="brand-form">
                 <div class="form-group">
-                    <label for="inputBrandName" class="col-sm-2 col-form-label">Brand</label>
+                    <label for="inputBrand" class="col-sm-2 col-form-label">Brand</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="brandName" id="inputBrandName" placeholder="enter brand name">
+                        <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputCategoryName" class="col-sm-2 col-form-label">Category</label>
+                    <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="categoryName" id="inputCategoryName" placeholder="enter category name">
+                        <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category">
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" id="add-brand-category">Add</button>
+                <button type="button" class="btn btn-primary" id="search-brand">Search</button>
                 &nbsp;
-                <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+                <button type="button" class="btn btn-primary" id="add-brand">Add</button>
                 &nbsp;
-                <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+                <button type="button" class="btn btn-primary" id="upload-brand-data">Upload</button>
             </form>
         </div>
     </div>
 
-
+    <!--    modal changes-->
     <!-- Blank Row -->
     <div class="row">
         &nbsp;
     </div>
     <div class="row">
-
         <!-- Table -->
         <div class="col-12">
-            <table class="table table-striped" id="brand-category-table">
+            <table class="table table-striped" id="brand-table">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Brand</th>
                     <th scope="col">Category</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Romil Jain</td>
-                                    <td>30</td>
-                                    <td>Edit | Delete</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Rajul Jain</td>
-                                    <td>31</td>
-                                    <td>Edit | Delete</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Anaisha Jain</td>
-                                    <td>7</td>
-                                    <td>Edit | Delete</td>
-                                </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 
     <!-- Brand-Category Edit Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="edit-brand-category-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="edit-brand-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Brand-Category</h5>
+                    <h5 class="modal-title">Edit Brand</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-inline" id="brand-category-edit-form">
+                    <form class="form-inline" id="brand-edit-form">
                         <div class="form-group">
-                            <label for="inputBrandName" class="col-sm-2 col-form-label">Brand Name</label>
+                            <label for="inputBrand" class="col-sm-2 col-form-label">Brand Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="brandName" placeholder="enter brand name">
+                                <input type="text" class="form-control" name="brand" placeholder="Enter brand">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputCategoryName" class="col-sm-2 col-form-label">Category Name</label>
+                            <label for="inputCategory" class="col-sm-2 col-form-label">Category Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="categoryName" placeholder="enter category name">
+                                <input type="text" class="form-control" name="category" placeholder="Enter category">
                             </div>
                         </div>
                         <input type="hidden" name="id" >
@@ -109,15 +88,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="update-brand-category">Update</button>
+                    <button type="submit" class="btn btn-primary" id="update-brand">Update</button>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <!-- Brand-Category Edit Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="upload-brand-category-modal">
+    <!-- Upload Brand Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="upload-brand-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
@@ -129,9 +108,9 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="brand-category-file">
-                        <input type="file" class="custom-file-input" id="brandCategoryFile">
-                        <label class="custom-file-label" for="brandCategoryFile" id="brandCategoryFileName">Choose file</label>
+                    <div class="brand-file">
+                        <input type="file" class="custom-file-input" id="brandFile">
+                        <label class="custom-file-label" for="brandFile" id="brandFileName">Choose file</label>
                     </div>
                     <a th:href="@{/sample/brand.tsv}" target="_blank">Download Sample</a>
                     <br>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BrandDao extends AbstractDao {
 
-    // <queries>
+
     // select by brand and category
     private static String selectByBrandCategory = "select p from BrandMasterPojo p where brand=:brand and category=:category";
     // select all brands
