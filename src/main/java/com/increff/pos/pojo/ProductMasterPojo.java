@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"barcode"})})
 public class ProductMasterPojo {
 
 	@Id
@@ -17,6 +18,7 @@ public class ProductMasterPojo {
 	@Column(nullable = false)
 	private int brandCategoryId;
 	private String name;
+	@Column(nullable = false)
 	private double mrp;
     // todo use non primitive data types
 	// todo !null --> (@Column(....))

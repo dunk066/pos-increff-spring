@@ -1,8 +1,6 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.model.BrandForm;
-import com.increff.pos.model.ProductData;
-import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.*;
 import com.increff.pos.pojo.BrandMasterPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductMasterPojo;
@@ -17,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -63,11 +62,25 @@ public class ProductDto {
         return reqList;
     }
 
-//    @Transactional
-//    public ProductMasterPojo getByBarcode(){
-//        ProductMasterPojo p ;
-//        return p;
-//    }
+    public ProductDetails getByBarcode(String barcode) throws ApiException {
+        ProductMasterPojo productMasterPojo = productService.getByBarcode(barcode);
+        BrandMasterPojo brandMasterPojo = brandService.get(productMasterPojo.getBrandCategoryId());
+        ProductData productData = ConvertUtil.convertProductMasterPojotoProductData(productMasterPojo,
+                brandMasterPojo);
+        InventoryPojo inventoryPojo = inventoryService.getByProductId(productMasterPojo);
+        return ConvertUtil.convertProductDatatoProductDetails(productData, inventoryPojo);
+    }
+
+    public List<ProductData> searchProduct(ProductSearchForm form) throws ApiException {
+        BrandForm brandForm = ConvertUtil.convertProductSearchFormtoBrandForm(form);
+        List<BrandMasterPojo> brandMasterPojoList = brandService.searchBrandCategoryData(brandForm);
+        List<Integer> brandIds = brandMasterPojoList.stream().map(o -> o.getId()).collect(Collectors.toList());
+        List<ProductMasterPojo> list = productService.searchProductData(form).stream()
+                .filter(o -> (brandIds.contains(o.getBrandCategoryId()))).collect(Collectors.toList());
+        return list.stream().map(
+                        o -> ConvertUtil.convertProductMasterPojotoProductData(o, brandService.get(o.getBrandCategoryId())))
+                .collect(Collectors.toList());
+    }
 
     public ProductMasterPojo update(int id,ProductForm f) throws ApiException {
         validateForm(f);

@@ -3,6 +3,7 @@ package com.increff.pos.service;
 import com.increff.pos.dao.OrderDao;
 import com.increff.pos.model.BillData;
 import com.increff.pos.model.OrderForm;
+import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.OrderSearchForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -42,8 +43,8 @@ public class OrderService {
     }
 
 
-    public void checkAvailabilityInventory(List<OrderForm> o) throws ApiException {
-        for(OrderForm i:o){
+    public void checkAvailabilityInventory(List<OrderItemForm> o) throws ApiException {
+        for(OrderItemForm i:o){
             int orderQuantity = i.quantity;
             ProductMasterPojo p = productService.getByBarcode(i.barcode);
             InventoryPojo iP = inventoryService.getByProductId(p);
