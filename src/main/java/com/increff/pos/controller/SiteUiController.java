@@ -33,7 +33,7 @@ public class SiteUiController extends AbstractUiController {
 		return mav("order.html");
 	}
 
-	@RequestMapping(value = "/site/sale")
+	@RequestMapping(value = "/site/report")
 	public ModelAndView sale() {
 		return mav("salesReport.html");
 	}

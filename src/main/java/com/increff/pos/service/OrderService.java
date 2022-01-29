@@ -97,7 +97,6 @@ public class OrderService {
     public void update(int id, OrderPojo p) throws ApiException {
         OrderPojo newP = check(id);
         newP.setDatetime(p.getDatetime());
-        newP.setOrderUser(p.getOrderUser());
         dao.update(newP);
     }
 

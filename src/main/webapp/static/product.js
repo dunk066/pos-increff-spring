@@ -33,7 +33,6 @@ function searchProduct(event){
 function addProduct(){
 	var mrp=$('#product-add-form input[name=mrp]').val();
 	if(mrp<=0){
-	    toastr.warning("MRP cannot be negative or zero !!");
 		$.notify("MRP cannot be negative or zero !!","error");
 		return false;
 	}
@@ -50,7 +49,6 @@ function addProduct(){
 		},
 		success: function(response) {
 			$('#add-product-modal').modal('toggle');
-	        toastr.success("Product added successfully !!");
 			$.notify("Product added successfully !!","success");
 			searchProduct();
 		},

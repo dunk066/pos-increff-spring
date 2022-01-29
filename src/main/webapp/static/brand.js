@@ -47,8 +47,10 @@ function addBrand(event){
 		},	   
 		success: function(response) {
 			$('#add-brand-modal').modal('toggle');
+			$('#brand-add-form').trigger("reset");
 	   		$.notify("Brand added successfully !!","success");
 	   		searchBrand();
+	   		document.getElementById("download-errors-brand").disabled = true;
 	   	},
 	   	error: handleAjaxError
 	   });
@@ -93,6 +95,7 @@ function getBrandList(){
 		type: 'GET',
 		success: function(data) {
 	   		// display data
+
 	   		displayBrandList(data);  
 	   	},
 	   	error: handleAjaxError
@@ -158,8 +161,13 @@ function uploadRowsBrand(){
 
 }
 
+//var $button = $('#download-errors-brand');
+//$button.disabled = true;
+document.getElementById("download-errors-brand").disabled = true;
+
 function downloadErrorsBrand(){
 	writeFileData(errorData);
+    document.getElementById("download-errors-brand").disabled = true;
 }
 
 //UI DISPLAY METHODS
@@ -196,6 +204,7 @@ function displayEditBrand(id){
 
 function resetUploadDialogBrand(){
 	//Reset file name
+	document.getElementById("download-errors-brand").disabled = true;
 	var $file = $('#brandFile');
 	$file.val('');
 	$('#brandFileName').html("Choose File");
@@ -205,6 +214,7 @@ function resetUploadDialogBrand(){
 	errorData = [];
 	//Update counts	
 	updateUploadDialogBrand();
+
 }
 
 function updateUploadDialogBrand(){
@@ -212,6 +222,7 @@ function updateUploadDialogBrand(){
 	$('#rowCountBrand').html("" + fileData.length);
 	$('#processCountBrand').html("" + processCount);
 	$('#errorCountBrand').html("" + errorData.length);
+	if(errorData.length != 0) document.getElementById("download-errors-brand").disabled = false;
 }
 
 function updateFileNameBrand(){
@@ -235,6 +246,7 @@ function displayBrand(data){
 
 function showAddBrandModal(){
 	$('#add-brand-modal').modal('toggle');
+	$('#brand-add-form').trigger("reset");
 }
 //INITIALIZATION CODE
 function init(){
@@ -244,7 +256,6 @@ function init(){
 	$('#process-data-brand').click(processDataBrand);
 	$('#download-errors-brand').click(downloadErrorsBrand);
 	$('#brandFile').on('change', updateFileNameBrand);
-	
 }
 
 $(document).ready(init);

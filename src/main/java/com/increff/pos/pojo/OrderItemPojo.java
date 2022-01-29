@@ -15,9 +15,7 @@ public class OrderItemPojo {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column(nullable = false)
     private int productId;
-    @Column(nullable = false)
     private int orderId;
     @Column(nullable = false)
     private int quantity;

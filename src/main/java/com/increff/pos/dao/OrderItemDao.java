@@ -16,7 +16,7 @@ public class OrderItemDao extends AbstractDao {
     // select all
     private static String selectAll = "select p from OrderItemPojo p";
     // select by order id
-    private static String selectByOrderId = "select p from OrderItemPojo where orderId:=orderId";
+    private static String selectByOrderId = "select p from OrderItemPojo p where orderId=:orderId";
     // delete by order id
     private static String deleteByOrderId = "delete from OrderItemPojo p where orderId=:orderId";
     // select list by order id

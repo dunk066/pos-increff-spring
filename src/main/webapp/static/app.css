@@ -7,6 +7,7 @@ html {
 
 body {
 	margin-bottom: 60px; /* Margin bottom by footer height */
+
 }
 
 .footer {
@@ -22,4 +23,15 @@ body {
 
 .fas{
     font-size: 4rem;
+}
+
+.nav-item{
+    padding-top: 30px;
+    padding-right: 80px;
+    padding-bottom: 20px;
+    text-align:center;
+}
+
+.container{
+    padding-left: 80px;
 }

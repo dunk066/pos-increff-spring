@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head th:replace = "snippets.html :: name_head" ></head>
+
+<body>
+<nav th:replace = "snippets.html :: name_site_navbar"></nav>
+
+<h3>Brand Report</h3>
+<div class="container">
+    <div class="row">
+        <!-- BrandReport form -->
+        <form class="form-inline w-100" id="brandreport-form" autocomplete="off">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-2">
+                        <label for="inputBrand" class="control-label">Brand</label>
+                    </div>
+                    <div class="col-2">
+                        <label for="inputCategory" class="control-label">Category</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" style="margin-top: 5px">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand" style="width:90%">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category" style="width:90%">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-success" id="download-brandreport">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<h3>Inventory Report</h3>
+<div class="container">
+    <div class="row">
+        <!-- InventoryReport form -->
+        <form class="form-inline w-100" id="inventoryreport-form" autocomplete="off">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-2">
+                        <label for="inputBrand" class="control-label">Brand</label>
+                    </div>
+                    <div class="col-2">
+                        <label for="inputCategory" class="control-label">Category</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" style="margin-top: 5px">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand" style="width:90%">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category" style="width:90%">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-success" id="download-inventoryreport">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h3>Sales Report</h3>
+<div class="container">
+    <div class="row">
+        <!-- Sales Report form -->
+        <form class="form-inline w-100" id="salesreport-form" autocomplete="off">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-2">
+                        <label for="inputStartDate" class="control-label">Start Date</label>
+                    </div>
+                    <div class="col-2">
+                        <label for="inputEndDate" class="control-label">End Date</label>
+                    </div>
+                    <div class="col-2">
+                        <label for="inputBrand" class="control-label">Brand</label>
+                    </div>
+                    <div class="col-2">
+                        <label for="inputCategory" class="control-label">Category</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" style="margin-top: 5px">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input class="form-control" name="startdate" id="inputStartDate" placeholder="Enter Start Date" style="width:90%">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input class="form-control" name="enddate" id="inputEndDate" placeholder="Enter End Date" style="width:90%">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand" style="width:90%">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="category" placeholder="Enter Category" style="width:90%">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-success" id="download-salesreport">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+</div>
+
+
+<footer th:replace = "snippets.html :: name_footer"></footer>
+<script th:src="@{/static/report.js}"/></script>
+</body>
+
+</html>

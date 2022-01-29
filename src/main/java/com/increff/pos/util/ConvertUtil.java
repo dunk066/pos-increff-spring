@@ -169,4 +169,30 @@ public class ConvertUtil {
         d.setDatetime(datetime);
         return d;
     }
+
+    public static InventoryReportData convertToInventoryReportData(InventoryPojo inventoryPojo,
+                                                                   BrandMasterPojo brandMasterPojo) {
+        InventoryReportData inventoryReportData = new InventoryReportData();
+        inventoryReportData.setBrand(brandMasterPojo.getBrand());
+        inventoryReportData.setCategory(brandMasterPojo.getCategory());
+        inventoryReportData.setQuantity(inventoryPojo.getQuantity());
+        return inventoryReportData;
+    }
+
+    public static SalesReportData convertToSalesReportData(OrderItemPojo orderItemPojo,
+                                                           BrandMasterPojo brandMasterPojo) {
+        SalesReportData salesProductData = new SalesReportData();
+        salesProductData.setBrand(brandMasterPojo.getBrand());
+        salesProductData.setCategory(brandMasterPojo.getCategory());
+        salesProductData.setQuantity(orderItemPojo.getQuantity());
+        salesProductData.setRevenue(orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());
+        return salesProductData;
+    }
+
+    public static BrandForm convertSalesReportFormtoBrandForm(SalesReportForm salesReportForm) {
+        BrandForm brandForm = new BrandForm();
+        brandForm.setBrand(salesReportForm.getBrand());
+        brandForm.setCategory(salesReportForm.getCategory());
+        return brandForm;
+    }
 }
