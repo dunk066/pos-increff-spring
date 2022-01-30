@@ -14,7 +14,7 @@ public class ProductDao extends AbstractDao{
     // select all
     private static String selectAll = "select p from ProductMasterPojo p";
     // search based on name and barcode
-    private static String search = "select p from ProductMasterPojo p where barcode like :barcode";
+    private static String search = "select p from ProductMasterPojo p where name like :name and barcode like :barcode";
 
     // <queryFunctions>
     // function to select by barcode
@@ -34,7 +34,7 @@ public class ProductDao extends AbstractDao{
     public List<ProductMasterPojo> searchProductData(String barcode, String name) {
         TypedQuery<ProductMasterPojo> query = getQuery(search, ProductMasterPojo.class);
         query.setParameter("barcode", barcode);
-//        query.setParameter("name", "%" + name + "%");
+        query.setParameter("name", "%" + name + "%");
         return query.getResultList();
     }
 

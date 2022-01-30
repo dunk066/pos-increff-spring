@@ -30,7 +30,32 @@ function downloadBrandReport(){
 			'Content-Type': 'application/json'
 		},
 		success: function(response) {
-	   		writeFileData(response);
+
+			var config = {
+            		quoteChar: '',
+            		escapeChar: '',
+            		delimiter: "\t"
+            	};
+
+            	var data = Papa.unparse(response, config);
+                var blob = new Blob([data], {type: 'text/tsv;charset=utf-8;'});
+                var fileUrl =  null;
+                var currentdate = new Date();
+                var brandreportname = "brand-report_"+ currentdate.getDate() + "/"
+                                 	+ (currentdate.getMonth()+1)  + "/"
+                                 	+ currentdate.getFullYear() + "@"
+                                 	+ currentdate.getHours() + "h_"
+                                 	+ currentdate.getMinutes() + "m_"
+                                 	+ currentdate.getSeconds()+"s.tsv";
+                if (navigator.msSaveBlob) {
+                    fileUrl = navigator.msSaveBlob(blob, brandreportname);
+                } else {
+                    fileUrl = window.URL.createObjectURL(blob);
+                }
+                var tempLink = document.createElement('a');
+                tempLink.href = fileUrl;
+                tempLink.setAttribute('download', brandreportname);
+                tempLink.click();
 	   	},
 	   	error: handleAjaxError
 	   });
@@ -54,7 +79,32 @@ function downloadInventoryReport(){
 			'Content-Type': 'application/json'
 		},
 		success: function(response) {
-	   		writeFileData(response);
+
+			var config = {
+            		quoteChar: '',
+            		escapeChar: '',
+            		delimiter: "\t"
+            	};
+
+            	var data = Papa.unparse(response, config);
+                var blob = new Blob([data], {type: 'text/tsv;charset=utf-8;'});
+                var fileUrl =  null;
+                var currentdate = new Date();
+                var inventoryreportname = "inventory-report_"+ currentdate.getDate() + "/"
+                                 	+ (currentdate.getMonth()+1)  + "/"
+                                 	+ currentdate.getFullYear() + "@"
+                                 	+ currentdate.getHours() + "h_"
+                                 	+ currentdate.getMinutes() + "m_"
+                                 	+ currentdate.getSeconds()+"s.tsv";
+                if (navigator.msSaveBlob) {
+                    fileUrl = navigator.msSaveBlob(blob, inventoryreportname);
+                } else {
+                    fileUrl = window.URL.createObjectURL(blob);
+                }
+                var tempLink = document.createElement('a');
+                tempLink.href = fileUrl;
+                tempLink.setAttribute('download', inventoryreportname);
+                tempLink.click();
 	   	},
 	   	error: handleAjaxError
 	   });
@@ -89,7 +139,31 @@ function downloadSalesReport(){
 		},
 		success: function(response) {
 			// display report
-			writeFileData(response);
+			var config = {
+            		quoteChar: '',
+            		escapeChar: '',
+            		delimiter: "\t"
+            	};
+
+            	var data = Papa.unparse(response, config);
+                var blob = new Blob([data], {type: 'text/tsv;charset=utf-8;'});
+                var fileUrl =  null;
+                var currentdate = new Date();
+                var salesreportname = "sales-report_"+ currentdate.getDate() + "/"
+                                 	+ (currentdate.getMonth()+1)  + "/"
+                                 	+ currentdate.getFullYear() + "@"
+                                 	+ currentdate.getHours() + "h_"
+                                 	+ currentdate.getMinutes() + "m_"
+                                 	+ currentdate.getSeconds()+"s.tsv";
+                if (navigator.msSaveBlob) {
+                    fileUrl = navigator.msSaveBlob(blob, salesreportname);
+                } else {
+                    fileUrl = window.URL.createObjectURL(blob);
+                }
+                var tempLink = document.createElement('a');
+                tempLink.href = fileUrl;
+                tempLink.setAttribute('download', salesreportname);
+                tempLink.click();
 		},
 		error: function(response){
 			handleAjaxError(response);
@@ -122,7 +196,7 @@ function init(){
     			return $('#inputStartDate').val();
     		}
     });
-	$('#download-salesreport').click(downloadInventoryReport);
+	$('#download-salesreport').click(downloadSalesReport);
 	$('#download-brandreport').click(downloadBrandReport);
 	$('#download-inventoryreport').click(downloadInventoryReport);
 }
