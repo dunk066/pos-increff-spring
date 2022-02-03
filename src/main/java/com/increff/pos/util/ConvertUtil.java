@@ -18,6 +18,13 @@ public class ConvertUtil {
         return d;
     }
 
+    public static BrandForm convertBrandMastePojotoBrandForm(BrandMasterPojo p) {
+        BrandForm d = new BrandForm();
+        d.setCategory(p.getCategory());
+        d.setBrand(p.getBrand());
+        return d;
+    }
+
     public static BrandMasterPojo convertBrandFormtoBrandMasterPojo(BrandForm f) {
         BrandMasterPojo b = new BrandMasterPojo();
         b.setCategory(f.getCategory());
@@ -158,6 +165,7 @@ public class ConvertUtil {
             billAmount += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();
         }
         d.setBillAmount(billAmount);
+        d.setIsInvoiceCreated(p.getInvoiceCreated());
         return d;
     }
 

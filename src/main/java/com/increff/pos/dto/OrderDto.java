@@ -62,17 +62,23 @@ public class OrderDto {
         return orderService.getBillData(list);
     }
 
+    @Transactional
+    public void updateInvoice(int id){
+        orderService.updateInvoice(id);
+    }
+
     @Transactional(rollbackFor = ApiException.class)
     public List<BillData> generateInvoice(OrderItemForm[] orderItemForms) throws ApiException {
         List<BillData> reqBill = new ArrayList<BillData>();
         int newId = 1;
         for(OrderItemForm p:orderItemForms) {
             BillData item = new BillData();
-            item.name = p.getName();
-            item.quantity = p.getQuantity();
-            item.mrp = p.getSellingPrice();
-            item.id = newId++;
+            item.setName(p.getName());
+            item.setQuantity(p.getQuantity());
+            item.setMrp(p.getSellingPrice());
+            item.setId(newId);
             reqBill.add(item);
+            newId++;
         }
         return reqBill;
     }

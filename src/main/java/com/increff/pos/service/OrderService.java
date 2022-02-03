@@ -54,6 +54,12 @@ public class OrderService {
         }
     }
 
+    @Transactional
+    public void updateInvoice(int id){
+        OrderPojo p = get(id);
+        p.setInvoiceCreated(1);
+    }
+
     public void updateInventory(List<OrderItemPojo> l) throws ApiException {
         for(OrderItemPojo p:l){
             InventoryPojo iP = inventoryService.getByProductId(productService.get(p.getProductId()));

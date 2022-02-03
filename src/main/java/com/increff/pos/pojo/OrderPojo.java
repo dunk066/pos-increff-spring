@@ -14,5 +14,6 @@ public class OrderPojo {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String datetime;
+	private int invoiceCreated;
 
 }

@@ -197,7 +197,5 @@ function init(){
     		}
     });
 	$('#download-salesreport').click(downloadSalesReport);
-	$('#download-brandreport').click(downloadBrandReport);
-	$('#download-inventoryreport').click(downloadInventoryReport);
 }
 $(document).ready(init);

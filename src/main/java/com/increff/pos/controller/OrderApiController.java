@@ -40,6 +40,12 @@ public class OrderApiController {
         return orderDto.get(id);
     }
 
+    @ApiOperation(value = "Updates invoice status")
+    @RequestMapping(value = "/invoicedisable/{id}", method = RequestMethod.POST)
+    public void updateInvoice(@PathVariable int id) throws ApiException {
+        orderDto.updateInvoice(id);
+    }
+
     @ApiOperation(value = "Gets list of all Orders")
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<OrderData> getAll() {

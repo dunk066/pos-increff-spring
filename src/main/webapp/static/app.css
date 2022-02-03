@@ -39,3 +39,7 @@ body {
 .header-top{
     padding-left:120px;
 }
+
+label {
+	float:left;
+}

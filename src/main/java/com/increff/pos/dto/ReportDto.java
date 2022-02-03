@@ -27,11 +27,11 @@ public class ReportDto {
     @Autowired
     private OrderService orderService;
 
-    public List<BrandData> getBrandReport(BrandForm form){
+    public List<BrandForm> getBrandReport(BrandForm form){
         List<BrandMasterPojo> list = brandService.searchBrandCategoryData(form);
-        List<BrandData> reqList = new ArrayList<BrandData>();
+        List<BrandForm> reqList = new ArrayList<BrandForm>();
         for(BrandMasterPojo p:list){
-            reqList.add(ConvertUtil.convertBrandMastePojotoBrandData(p));
+            reqList.add(ConvertUtil.convertBrandMastePojotoBrandForm(p));
         }
         return reqList;
     }

@@ -93,6 +93,33 @@ function getOrderItemsEdit(id){
     });   
 }
 
+function displayOrderItemsEdit(data){
+	var $tbodyEditOrder = $('#customer-order-edit-table').find('tbody');
+	$tbodyEditOrder.empty();
+	var j=0;
+	for(var i in data){
+		var e = data[i];
+		// create json for order items already exist for future use
+		var json={
+			"barcode":e.barcode,
+			"quantity":e.quantity
+		};
+		// store json in global array
+		editOrderItemsJsonArray[j]=json;
+		var buttonHtml = ' <input type="button" class="btn btn-outline-danger" value="Delete" id="deleteItemButtonEdit">'
+		var row = '<tr>'
+		+ '<td>' + e.barcode + '</td>'
+		+ '<td>' + e.name + '</td>'
+		+ '<td>' + e.quantity + '</td>'
+		+ '<td>' + e.sellingPrice + '</td>'
+		+ '<td>' + buttonHtml + '</td>'
+		+ '</tr>';
+		$tbodyEditOrder.append(row);
+		j++;
+	}
+	$totalItemsEdit.val(j);
+}
+
 
 function getOrderItems(id){
 	var url = getOrderItemUrl() + "/" + id;
@@ -122,6 +149,55 @@ function displayOrderItems(data){
 		+ '</tr>';
 		$tbodyViewOrder.append(row);
 	}
+}
+
+function updateOrder(){
+	if($totalItemsEdit.val()==0){
+		$.notify("Add items to update order !!","error");
+		return false;
+	}
+	var table = document.getElementById("customer-order-edit-table");
+	var orderData=[];
+	var j=0;
+	// take rows from table and process cells
+	for (var i = 1, row; row = table.rows[i]; i++) {
+   			// create json
+   			var json = {
+   				"barcode":row.cells[0].innerHTML,
+   				"quantity":row.cells[2].innerHTML,
+   				"sellingPrice":row.cells[3].innerHTML
+   			};
+
+   			orderData[j]=json;
+   			j++;
+   		}
+
+		// call api
+		//Get the ID
+		var id = $("#order-edit-form input[name=id]").val();
+
+		var url=getOrderUrl()+"/"+id;
+		$.ajax({
+			url: url,
+			type: 'PUT',
+			data: JSON.stringify(orderData),
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8'
+			},
+			success: function(data) {
+				// nullify array
+				editOrderItemsJsonArray=[];
+
+$tbodyEdit.empty();
+$totalItemsEdit.val(0);
+$.notify("Order updated successfully !!","success");
+getOrderList();
+$('#edit-order-modal').modal('toggle');
+
+},
+error: handleAjaxError
+});
+
 }
 
 function createOrder(){
@@ -192,6 +268,18 @@ function generateInvoice(id){
                   	   		let blob = new Blob([bytes], {type: "application/pdf"});
                               //openBillPdf(blob);
                               downloadBillPdf(blob);
+                              var disableUrl = getOrderUrl() + "/invoicedisable/" + id;
+                              $.ajax({
+                                    url : disableUrl,
+                                    type : 'POST',
+                                    success : function(){
+                                            getOrderList();
+                                    },
+                                    error:handleAjaxError
+
+
+                              });
+                              getOrderList();
 
                           },
                           error: handleAjaxError
@@ -202,13 +290,18 @@ function generateInvoice(id){
                 error: handleAjaxError
             });
 }
+
 	//UI DISPLAY METHODS
 function displayOrderList(data){
 		var $tbodyOrder = $('#order-table').find('tbody');
 		$tbodyOrder.empty();
 		for(var i in data){
 			var e = data[i];
-			var buttonHtml =' <button class="btn btn-outline-success" onclick="editOrder(' + e.id + ')">Edit</button>'
+			if(e.isInvoiceCreated == 1){
+			   var buttonHtml =' <button class="btn btn-danger disabled" >Edit</button>'
+			}else{
+			   var buttonHtml =' <button class="btn btn-outline-success" onclick="editOrder(' + e.id + ')">Edit</button>'
+			}
 			buttonHtml+=' <button class="btn btn-outline-primary" onclick="viewOrder(' + e.id + ')">View</button>'
 			buttonHtml+=' <button class="btn btn-outline-success" onclick="generateInvoice(' + e.id + ')">Invoice</button>'
 			var row = '<tr>'
@@ -429,7 +522,8 @@ function showOrderModal(){
 function init(){
 		$('#show-add-order-modal').click(showOrderModal);
 		$('#add-item-button').click(addItemInTable);
-//		$('#add-item-button-edit').click(addItemInEditTable);
+		$('#add-item-button-edit').click(addItemInEditTable);
+		$('#update-order').click(updateOrder);
 		$("#inputBarcode").on('input',function(){
 			var valOfItem=$(this).val();
 			var len=valOfItem.length;
