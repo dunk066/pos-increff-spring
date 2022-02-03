@@ -68,10 +68,11 @@
                 </fo:table-body>
             </fo:table>
             <fo:table table-layout="fixed" width="100%">
-                <fo:table-column column-width="25%" />
-                <fo:table-column column-width="25%" />
-                <fo:table-column column-width="25%" />
-                <fo:table-column column-width="25%" />
+                <fo:table-column column-width="20%" />
+                <fo:table-column column-width="20%" />
+                <fo:table-column column-width="20%" />
+                <fo:table-column column-width="20%" />
+                <fo:table-column column-width="20%" />
                 <fo:table-body>
                     <fo:table-row>
                         <fo:table-cell padding-top="30pt">
@@ -99,17 +100,25 @@
                             <fo:block font-size="15pt" font-family="sans-serif"
                                       background-color="black" color="white" text-align="center"
                                       padding-top="3pt">
-                                MRP
+                                Selling Price
+                            </fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell padding-top="30pt">
+                            <fo:block font-size="15pt" font-family="sans-serif"
+                                      background-color="black" color="white" text-align="center"
+                                      padding-top="3pt">
+                                Total
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
                 </fo:table-body>
             </fo:table>
             <fo:table table-layout="fixed" width="100%">
-                <fo:table-column column-width="25%" />
-                <fo:table-column column-width="25%" />
-                <fo:table-column column-width="25%" />
-                <fo:table-column column-width="25%" />
+                <fo:table-column column-width="20%" />
+                <fo:table-column column-width="20%" />
+                <fo:table-column column-width="20%" />
+                <fo:table-column column-width="20%" />
+                <fo:table-column column-width="20%" />
                 <fo:table-body>
                     <fo:table-row>
                         <xsl:if test="position() mod 2">
@@ -132,6 +141,10 @@
                         <fo:table-cell border-style="solid"
                                        border-width="1.0pt">
                             <xsl:apply-templates select="item/mrp" />
+                        </fo:table-cell>
+                        <fo:table-cell border-style="solid"
+                                       border-width="1.0pt">
+                            <xsl:apply-templates select="item/cost" />
                         </fo:table-cell>
                     </fo:table-row>
                 </fo:table-body>
@@ -177,6 +190,12 @@
         </fo:block>
     </xsl:template>
     <xsl:template match="mrp">
+        <fo:block font-size="12pt" font-family="sans-serif"
+                  space-after.optimum="3pt" text-align="center" padding="3pt">
+            <xsl:value-of select="." />
+        </fo:block>
+    </xsl:template>
+    <xsl:template match="cost">
         <fo:block font-size="12pt" font-family="sans-serif"
                   space-after.optimum="3pt" text-align="center" padding="3pt">
             <xsl:value-of select="." />

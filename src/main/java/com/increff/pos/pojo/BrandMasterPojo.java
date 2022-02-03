@@ -17,7 +17,6 @@ public class BrandMasterPojo {
 	private int id;
 	private String brand;
 	private String category;
-    // todo unique constraints @Table
 }
 
 // todo mockmultipart file

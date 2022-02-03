@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,6 +60,21 @@ public class OrderDto {
         orderService.updateInventory(list);
         orderItemService.add(list);
         return orderService.getBillData(list);
+    }
+
+    @Transactional(rollbackFor = ApiException.class)
+    public List<BillData> generateInvoice(OrderItemForm[] orderItemForms) throws ApiException {
+        List<BillData> reqBill = new ArrayList<BillData>();
+        int newId = 1;
+        for(OrderItemForm p:orderItemForms) {
+            BillData item = new BillData();
+            item.name = p.getName();
+            item.quantity = p.getQuantity();
+            item.mrp = p.getSellingPrice();
+            item.id = newId++;
+            reqBill.add(item);
+        }
+        return reqBill;
     }
 
     public OrderPojo addOrder(List<OrderItemForm> orderItems) throws ApiException {

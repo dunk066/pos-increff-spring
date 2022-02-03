@@ -62,11 +62,11 @@ public class ProductService {
     public ProductMasterPojo update(int id,ProductMasterPojo p,BrandMasterPojo b) throws ApiException {
         NormalizeUtil.normalizaProductMasterPojo(p);
         ProductMasterPojo newP = check(id);
-        newP.setBarcode(p.getBarcode());
+//        newP.setBarcode(p.getBarcode());
         newP.setBrandCategoryId(b.getId());
         newP.setMrp(p.getMrp());
         newP.setName(p.getName());
-        dao.update(p);
+        dao.update(newP);
         return newP;
     }
 

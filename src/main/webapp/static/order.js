@@ -118,37 +118,11 @@ function displayOrderItems(data){
 		+ '<td>' + e.name + '</td>'
 		+ '<td>' + e.quantity + '</td>'
 		+ '<td>' + e.sellingPrice + '</td>'
+		+ '<td>' + e.sellingPrice * e.quantity + '</td>'
 		+ '</tr>';
 		$tbodyViewOrder.append(row);
 	}
 }
-
-//function displayOrderItemsEdit(data){
-//	var $tbodyEditOrder = $('#customer-order-edit-table').find('tbody');
-//	$tbodyEditOrder.empty();
-//	var j=0;
-//	for(var i in data){
-//		var e = data[i];
-//		// create json for order items already exist for future use
-//		var json={
-//			"barcode":e.barcode,
-//			"quantity":e.quantity
-//		};
-//		// store json in global array
-//		editOrderItemsJsonArray[j]=json;
-//		var buttonHtml = ' <input type="button" class="btn btn-outline-danger" value="Delete" id="deleteItemButtonEdit">'
-//		var row = '<tr>'
-//		+ '<td>' + e.barcode + '</td>'
-//		+ '<td>' + e.name + '</td>'
-//		+ '<td>' + e.quantity + '</td>'
-//		+ '<td>' + e.sellingPrice + '</td>'
-//		+ '<td>' + buttonHtml + '</td>'
-//		+ '</tr>';
-//		$tbodyEditOrder.append(row);
-//		j++;
-//	}
-//	$totalItemsEdit.val(j);
-//}
 
 function createOrder(){
 		if($totalItems.val()==0){
@@ -178,31 +152,55 @@ function createOrder(){
 				'Content-Type': 'application/json; charset=utf-8'
 			},	   
 			success: function(data) {
-	   		// process recieved pdf
-	   		let binaryString = window.atob(data);
+            $tbody.empty();
+            $totalItems.val(0);
+            $.notify("Order added successfully !!","success");
+            getOrderList();
+            $('#add-order-modal').modal('toggle');
 
-	   		let binaryLen = binaryString.length;
+        },
+        error: handleAjaxError
+        });
+}
 
-	   		let bytes = new Uint8Array(binaryLen);
+function generateInvoice(id){
+        var url = getOrderItemUrl() + "/" + id;
+        $.ajax({
+           	url: url,
+           	type: 'GET',
+           	success: function(dataRec) {
+           	      var url=getOrderUrl() + "/invoice";
+                  		$.ajax({
+                  			url: url,
+                  			type: 'POST',
+                  			data: JSON.stringify(dataRec),
+                  			headers: {
+                  				'Content-Type': 'application/json; charset=utf-8'
+                  			},
+                  			success: function(data) {
+                  	   		// process recieved pdf
+                  	   		let binaryString = window.atob(data);
 
-	   		for (let i = 0; i < binaryLen; i++) {
-	   			let ascii = binaryString.charCodeAt(i);
-	   			bytes[i] = ascii;
-	   		}
+                  	   		let binaryLen = binaryString.length;
 
-	   		let blob = new Blob([bytes], {type: "application/pdf"});
-//openBillPdf(blob);
-downloadBillPdf(blob);
-// empty table
-$tbody.empty();
-$totalItems.val(0);
-$.notify("Order added successfully !!","success");
-searchOrder();
-$('#add-order-modal').modal('toggle');
+                  	   		let bytes = new Uint8Array(binaryLen);
 
-},
-error: handleAjaxError
-});
+                  	   		for (let i = 0; i < binaryLen; i++) {
+                  	   			let ascii = binaryString.charCodeAt(i);
+                  	   			bytes[i] = ascii;
+                  	   		}
+                  	   		let blob = new Blob([bytes], {type: "application/pdf"});
+                              //openBillPdf(blob);
+                              downloadBillPdf(blob);
+
+                          },
+                          error: handleAjaxError
+                          });
+
+
+            },
+                error: handleAjaxError
+            });
 }
 	//UI DISPLAY METHODS
 function displayOrderList(data){
@@ -210,11 +208,11 @@ function displayOrderList(data){
 		$tbodyOrder.empty();
 		for(var i in data){
 			var e = data[i];
-			var buttonHtml = '<button class="btn btn-outline-primary" onclick="viewOrder(' + e.id + ')">View</button>'
-//			buttonHtml+=' <button class="btn btn-outline-success" onclick="editOrder(' + e.id + ')">Edit</button>'
+			var buttonHtml =' <button class="btn btn-outline-success" onclick="editOrder(' + e.id + ')">Edit</button>'
+			buttonHtml+=' <button class="btn btn-outline-primary" onclick="viewOrder(' + e.id + ')">View</button>'
+			buttonHtml+=' <button class="btn btn-outline-success" onclick="generateInvoice(' + e.id + ')">Invoice</button>'
 			var row = '<tr>'
-//			+ '<td>' + e.id + '</td>'
-//			+ '<td>' + e.orderCreater + '</td>'
+			+ '<td>' + e.id + '</td>'
 			+ '<td>' + e.datetime + '</td>'
 			+ '<td>' + e.billAmount + '</td>'
 			+ '<td>' + buttonHtml + '</td>'
@@ -335,6 +333,7 @@ function addItemInTable(){
 			itemId++;
 			$totalItems.val(itemId);
 	var buttonHtml = ' <input type="button" class="btn btn-outline-danger" value="Delete" id="deleteItemButton">'
+//	buttonHtml+=' <button class="btn btn-outline-success" onclick="editOrder(' + e.id + ')">Edit</button>'
 	var row = '<tr>'
 	+ '<td>' + $("#inputBarcode").val() + '</td>'
 	+ '<td>' + $("#inputName").val() + '</td>'
@@ -506,34 +505,7 @@ function init(){
 		});
 
 		$('#create-order').click(createOrder);
-		$('#update-order').click(updateOrder);
-		// datepicker
-		$('#inputStartDate').datepicker({
-			uiLibrary: 'bootstrap4',
-			showOnFocus: true, 
-			showRightIcon: false,
-			format: 'dd-mm-yyyy',
-			maxDate: function () {
-				return $('#inputEndDate').val();
-		}
-		});
-		$('#inputEndDate').datepicker({
-			uiLibrary: 'bootstrap4',
-			showOnFocus: true, 
-			showRightIcon: false,
-			format: 'dd-mm-yyyy',
-			minDate: function () {
-				return $('#inputStartDate').val();
-		}
-	});
 
-	$('#search-order').click(searchOrder);
-	$('.modal').on('hidden.bs.modal', function(){
-			// on closing the modal
-			editOrderItemsJsonArray=[];
-			$('#availableInventoryRow').hide();
-			$('#availableInventoryRowEditOrder').hide();
-	});
 }
 
 $(document).ready(init);

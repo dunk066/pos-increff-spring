@@ -46,6 +46,16 @@ public class OrderApiController {
         return orderDto.getAll();
     }
 
+    @ApiOperation(value = "Generates invoice")
+    @RequestMapping(value = "/invoice",method = RequestMethod.POST)
+    public void generateInvoice(@RequestBody OrderItemForm[] orderItemForms, HttpServletResponse response)
+            throws ApiException, ParserConfigurationException, TransformerException, FOPException, IOException {
+        List<BillData> list = orderDto.generateInvoice(orderItemForms);
+        GenerateXML.createXml(list);
+        byte[] encodedBytes = GeneratePDF.createPDF();
+        GeneratePDF.createResponse(response, encodedBytes);
+    }
+
     @ApiOperation(value = "Adds Order")
     @RequestMapping(value = "", method = RequestMethod.POST)
     public void add(@RequestBody OrderItemForm[] orderItemForms, HttpServletResponse response)

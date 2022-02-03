@@ -33,7 +33,7 @@ public class ProductDao extends AbstractDao{
     // function to search based on name and barcode
     public List<ProductMasterPojo> searchProductData(String barcode, String name) {
         TypedQuery<ProductMasterPojo> query = getQuery(search, ProductMasterPojo.class);
-        query.setParameter("barcode", barcode);
+        query.setParameter("barcode", barcode + "%");
         query.setParameter("name", "%" + name + "%");
         return query.getResultList();
     }

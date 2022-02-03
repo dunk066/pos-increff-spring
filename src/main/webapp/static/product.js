@@ -4,8 +4,10 @@ function getProductUrl(){
 	return baseUrl + "/api/product";
 }
 
+
 //BUTTON ACTIONS
 function searchProduct(event){
+	//Set the values to add
 	var $tbody = $('#product-table').find('tbody');
 	$tbody.empty();
 
@@ -31,9 +33,10 @@ function searchProduct(event){
 
 //BUTTON ACTIONS
 function addProduct(){
+	//Set the values to update
 	var mrp=$('#product-add-form input[name=mrp]').val();
 	if(mrp<=0){
-		$.notify("MRP cannot be negative or zero !!","error");
+		$.notify("MRP can not be negative or zero !!","error");
 		return false;
 	}
 	var $form = $("#product-add-form");

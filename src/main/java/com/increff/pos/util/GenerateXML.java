@@ -58,18 +58,24 @@ public class GenerateXML {
             item.appendChild(name);
             // Calculate total bill amount
             finalBill = finalBill + billDataItems.get(i).quantity * billDataItems.get(i).mrp;
+            double totalCost = 0;
+            totalCost = totalCost + billDataItems.get(i).quantity * billDataItems.get(i).mrp;
             Element quantity = document.createElement("quantity");
             quantity.appendChild(document.createTextNode(String.valueOf(billDataItems.get(i).quantity)));
             item.appendChild(quantity);
 
             Element mrp = document.createElement("mrp");
-            mrp.appendChild(document.createTextNode(String.valueOf(billDataItems.get(i).mrp)));
+            mrp.appendChild(document.createTextNode(String.format("%.2f",billDataItems.get(i).mrp)));
             item.appendChild(mrp);
+
+            Element cost = document.createElement("cost");
+            cost.appendChild(document.createTextNode(String.format("%.2f",totalCost)));
+            item.appendChild(cost);
 
         }
 
         Element total = document.createElement("total");
-        total.appendChild(document.createTextNode(String.valueOf(finalBill) + " Rs."));
+        total.appendChild(document.createTextNode(String.format("%.2f",finalBill) + " Rs."));
         root.appendChild(total);
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
