@@ -7,4 +7,5 @@ You can add brands & products, keep track of sales and inventory and create orde
 
 # Commands
 Build: mvn clean install
+
 Run: mvn jetty:run
